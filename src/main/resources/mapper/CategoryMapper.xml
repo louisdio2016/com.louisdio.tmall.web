@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.tmall.mapper.CategoryMapper">
+    <!--
+    <select id="list" resultType="Category">
+        SELECT * FROM category ORDER BY id DESC
+    </select>
+    -->
+    <select id="list" resultType="Category">
+        SELECT * FROM category ORDER BY id DESC
+        <if test="start != null and count != null">
+            LIMIT #{start},#{count}
+        </if>
+    </select>
+    <select id="total" resultType="int">
+        SELECT count(*) FROM category
+    </select>
+</mapper>
