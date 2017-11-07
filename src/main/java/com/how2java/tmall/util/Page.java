@@ -1,5 +1,8 @@
 package com.how2java.tmall.util;
 
+/**
+ * 从页面接收start,结合静态defaultCount,提供给Mapper进行分页查询
+ */
 public class Page {
     private int start;//开始页数
     private int count;//每页显示个数
