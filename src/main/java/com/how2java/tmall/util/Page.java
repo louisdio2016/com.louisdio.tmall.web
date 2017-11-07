@@ -30,7 +30,7 @@ public class Page {
     /*
     获得最后一页的索引
      */
-    private int getLast() {
+    public int getLast() {
         int last;
         if (0 == total % count){
             last = total - count;

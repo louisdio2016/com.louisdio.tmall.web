@@ -9,4 +9,5 @@ public interface CategoryMapper {
     //List<Category> list();
     List<Category> list(Page page);
     int total();
+    void add(Category category);
 }

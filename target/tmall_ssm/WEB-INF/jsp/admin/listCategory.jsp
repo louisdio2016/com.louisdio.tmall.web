@@ -49,7 +49,7 @@
     </div>
 
     <div class="pageDiv">
-        <%//@include file="../include/admin/adminPage.jsp" %>
+        <%@include file="../include/admin/adminPage.jsp" %>
     </div>
     <div class="panel panel-warning addDiv">
         <div class="panel-heading">新增分类</div>
@@ -74,4 +74,15 @@
         </div>
     </div>
 </div>
+<script>
+    $(function(){
+        $("#addForm").submit(function(){
+            if(!checkEmpty("name","分类名称"))
+                return false;
+            if(!checkEmpty("categoryPic","分类图片"))
+                return false;
+            return true;
+        });
+    });
+</script>
 <%@include file="../include/admin/adminFooter.jsp"%>

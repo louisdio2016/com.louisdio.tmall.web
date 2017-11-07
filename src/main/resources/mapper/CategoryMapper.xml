@@ -16,4 +16,8 @@
     <select id="total" resultType="int">
         SELECT count(*) FROM category
     </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="Category">
+        INSERT INTO category (name) VALUES (#{name})
+    </insert>
 </mapper>
