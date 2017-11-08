@@ -46,4 +46,13 @@ public class CategoryController {
         ImageIO.write(img,"jpg",file);
         return "redirect:/admin_category_list";
     }
+    @RequestMapping("admin_category_delete")
+    public String delete(int cid, HttpSession session){
+        categoryService.delete(cid);
+        String path = session.getServletContext().getRealPath("img/category");
+        File floder = new File(path);
+        File file = new File(floder, cid + ".jpg");
+        file.delete();
+        return "redirect:/admin_category_list";
+    }
 }
