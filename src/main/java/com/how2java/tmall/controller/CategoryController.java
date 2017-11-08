@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -53,6 +54,34 @@ public class CategoryController {
         File floder = new File(path);
         File file = new File(floder, cid + ".jpg");
         file.delete();
+        return "redirect:/admin_category_list";
+    }
+
+    @RequestMapping("admin_category_edit")
+    public String get(int cid,Model model){
+        Category category = categoryService.get(cid);
+        model.addAttribute("c",category);
+        return "admin/editCategory";
+    }
+
+    @RequestMapping("admin_category_update")
+    public String update(Category category,HttpSession session,UploadedImageFile uploadFile)throws IOException{
+        categoryService.update(category);
+        MultipartFile image = uploadFile.getImage();
+        if (image != null && !image.isEmpty()){
+            String floderPath = session.getServletContext().getRealPath("img/category");
+            File floder = new File(floderPath);
+            File file = new File(floder, category.getId() + ".jpg");
+            if (!file.exists()){
+                file.mkdirs();
+                file.createNewFile();
+            }
+            image.transferTo(file);
+            //将图片转化为IO流
+            BufferedImage bufferedImage = ImageUtil.change2jpg(file);
+            //将图片写入到指定位置
+            ImageIO.write(bufferedImage,"jpg",file);
+        }
         return "redirect:/admin_category_list";
     }
 }
