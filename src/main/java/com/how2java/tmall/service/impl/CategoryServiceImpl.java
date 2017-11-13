@@ -2,8 +2,8 @@ package com.how2java.tmall.service.impl;
 
 import com.how2java.tmall.mapper.CategoryMapper;
 import com.how2java.tmall.pojo.Category;
+import com.how2java.tmall.pojo.CategoryExample;
 import com.how2java.tmall.service.CategoryService;
-import com.how2java.tmall.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> list() {
-        return categoryMapper.list();
+        CategoryExample example = new CategoryExample();
+        //指定按照id降序排列
+        example.setOrderByClause("id desc");
+        return categoryMapper.selectByExample(example);
     }
 
     //    @Override
@@ -32,21 +35,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void add(Category category) {
-        categoryMapper.add(category);
+        categoryMapper.insertSelective(category);
     }
 
     @Override
     public void delete(int id) {
-        categoryMapper.delete(id);
+        categoryMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public Category get(int id) {
-        return categoryMapper.get(id);
+
+        return categoryMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public void update(Category category) {
-        categoryMapper.update(category);
+        categoryMapper.updateByPrimaryKeySelective(category);
     }
 }
