@@ -18,7 +18,7 @@ public class ProductImageExample {
         this.orderByClause = orderByClause;
     }
 
-    public String getOrderByClause() {
+    public String getOrderByClause(String id_desc) {
         return orderByClause;
     }
 

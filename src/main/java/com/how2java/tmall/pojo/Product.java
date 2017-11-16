@@ -17,7 +17,27 @@ public class Product {
 
     private Integer cid;
 
+    private Category category;
+
     private Date createDate;
+
+    private ProductImage productImage;
+
+    public ProductImage getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(ProductImage productImage) {
+        this.productImage = productImage;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Integer getId() {
         return id;
