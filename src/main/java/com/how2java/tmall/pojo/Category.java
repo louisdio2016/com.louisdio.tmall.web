@@ -1,9 +1,31 @@
 package com.how2java.tmall.pojo;
 
+import java.util.List;
+
 public class Category {
     private Integer id;
 
     private String name;
+    //单行Product
+    private List<Product> products;
+    //为首页的某一个Category提供多行显示Product
+    private List<List<Product>> productsByRow;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<List<Product>> getProductsByRow() {
+        return productsByRow;
+    }
+
+    public void setProductsByRow(List<List<Product>> productsByRow) {
+        this.productsByRow = productsByRow;
+    }
 
     public Integer getId() {
         return id;
