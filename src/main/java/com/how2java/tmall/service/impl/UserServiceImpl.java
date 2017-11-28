@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void add(User user) {
-
+        userMapper.insert(user);
     }
 
     @Override
@@ -39,5 +39,28 @@ public class UserServiceImpl implements UserService{
     @Override
     public User get(int id) {
         return null;
+    }
+
+    @Override
+    public boolean isExist(String name) {
+        UserExample example = new UserExample();
+        example.setOrderByClause("id desc");
+        example.createCriteria().andNameEqualTo(name);
+        List<User> users = userMapper.selectByExample(example);
+        if (users.size() == 0 || users.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public User get(String name, String password) {
+        UserExample example = new UserExample();
+        example.setOrderByClause("id desc");
+        example.createCriteria().andNameEqualTo(name).andPasswordEqualTo(password);
+        List<User> users = userMapper.selectByExample(example);
+        if (users == null || users.isEmpty())
+            return null;
+        return users.get(0);
     }
 }

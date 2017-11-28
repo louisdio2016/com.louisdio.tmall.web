@@ -1,6 +1,7 @@
 package com.how2java.tmall.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Product {
     private Integer id;
@@ -22,6 +23,46 @@ public class Product {
     private Date createDate;
 
     private ProductImage productImage;
+
+    private List<ProductImage> productSingleImage;
+
+    private List<ProductImage> productDetailImage;
+
+    private int reviewQuantity;
+
+    private int saleQuantity;
+
+    public List<ProductImage> getProductSingleImage() {
+        return productSingleImage;
+    }
+
+    public void setProductSingleImage(List<ProductImage> productSingleImage) {
+        this.productSingleImage = productSingleImage;
+    }
+
+    public List<ProductImage> getProductDetailImage() {
+        return productDetailImage;
+    }
+
+    public void setProductDetailImage(List<ProductImage> productDetailImage) {
+        this.productDetailImage = productDetailImage;
+    }
+
+    public int getReviewQuantity() {
+        return reviewQuantity;
+    }
+
+    public void setReviewQuantity(int reviewQuantity) {
+        this.reviewQuantity = reviewQuantity;
+    }
+
+    public int getSaleQuantity() {
+        return saleQuantity;
+    }
+
+    public void setSaleQuantity(int saleQuantity) {
+        this.saleQuantity = saleQuantity;
+    }
 
     public ProductImage getProductImage() {
         return productImage;
