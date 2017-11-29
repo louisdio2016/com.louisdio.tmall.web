@@ -16,4 +16,5 @@ public interface OrderItemService {
     void fill(Order o);
     void setProduct(List<OrderItem> ois);
     void setProduct(OrderItem oi);
+    int getQuantity(int pid);
 }

@@ -9,4 +9,8 @@ public interface PropertyValueService {
     List<PropertyValue> list(int pid);
 
     void update(PropertyValue propertyValue);
+
+    void setProperty(PropertyValue propertyValue);
+
+    void setProperty(List<PropertyValue> propertyValues);
 }

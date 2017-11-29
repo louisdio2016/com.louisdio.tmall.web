@@ -88,4 +88,18 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void delete(int id) {
 
     }
+
+    @Override
+    public int getQuantity(int pid) {
+        OrderItemExample example = new OrderItemExample();
+        example.createCriteria().andPidEqualTo(pid);
+        List<OrderItem> orderItems = orderItemMapper.selectByExample(example);
+        if (orderItems.isEmpty() || orderItems.size() == 0)
+            return 0;
+        int quantity = 0;
+        for (OrderItem oi:orderItems){
+            quantity += oi.getNumber();
+        }
+        return quantity;
+    }
 }

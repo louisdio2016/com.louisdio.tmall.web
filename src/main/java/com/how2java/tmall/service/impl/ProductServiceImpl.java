@@ -4,8 +4,10 @@ import com.how2java.tmall.mapper.CategoryMapper;
 import com.how2java.tmall.mapper.ProductImageMapper;
 import com.how2java.tmall.mapper.ProductMapper;
 import com.how2java.tmall.pojo.*;
+import com.how2java.tmall.service.OrderItemService;
 import com.how2java.tmall.service.ProductImageService;
 import com.how2java.tmall.service.ProductService;
+import com.how2java.tmall.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
     @Autowired
     private ProductImageService productImageService;
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private OrderItemService orderItemService;
     @Override
     public List<Product> list(int cid) {
         ProductExample productExample = new ProductExample();
@@ -48,7 +54,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product get(int id) {
         Product product = productMapper.selectByPrimaryKey(id);
+        Category category = categoryMapper.selectByPrimaryKey(product.getCid());
         setProductImage(product);
+        product.setCategory(category);
         return product;
     }
 
@@ -106,6 +114,14 @@ public class ProductServiceImpl implements ProductService {
 //                productRow.add(temp);
 //            }
         }
+    }
+
+    @Override
+    public void setSaleReviewQuantity(Product product) {
+        int saleQuantity = orderItemService.getQuantity(product.getId());
+        int reviewQuantity = reviewService.getQuantity(product.getId());
+        product.setSaleQuantity(saleQuantity);
+        product.setReviewQuantity(reviewQuantity);
     }
 
     /*

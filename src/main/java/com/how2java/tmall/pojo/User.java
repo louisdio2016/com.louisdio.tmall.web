@@ -7,6 +7,21 @@ public class User {
 
     private String password;
 
+    public String getAnonyous(){
+        String theName = this.name;
+        if ("".equals(theName))
+            return "";
+        if (theName == null)
+            return null;
+        if (2 == theName.length())
+            return theName.substring(0,1)+"*";
+        char[] chars = theName.toCharArray();
+        for (int i=1;i<chars.length-1;i++){
+            chars[i] = '*';
+        }
+        return new String(chars);
+    }
+
     public Integer getId() {
         return id;
     }

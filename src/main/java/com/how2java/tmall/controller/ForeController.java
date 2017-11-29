@@ -1,12 +1,10 @@
 package com.how2java.tmall.controller;
 
-import com.how2java.tmall.pojo.Category;
-import com.how2java.tmall.pojo.User;
-import com.how2java.tmall.service.CategoryService;
-import com.how2java.tmall.service.ProductService;
-import com.how2java.tmall.service.UserService;
+import com.how2java.tmall.pojo.*;
+import com.how2java.tmall.service.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +23,18 @@ public class ForeController {
     private CategoryService categoryService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProductImageService productImageService;
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private PropertyValueService propertyValueService;
 
+    /**
+     * 主页
+     * @param model
+     * @return
+     */
     @RequestMapping("forehome")
     public String home(Model model){
         List<Category> categoryList = categoryService.list();
@@ -35,6 +44,12 @@ public class ForeController {
         return "fore/home";
     }
 
+    /**
+     * 注册
+     * @param model
+     * @param user
+     * @return
+     */
     @RequestMapping("foreregister")
     public String register(Model model,User user){
         //0.获取user内容，进行转义
@@ -56,6 +71,13 @@ public class ForeController {
         return "redirect:registerSuccessPage";
     }
 
+    /**
+     * 登录
+     * @param user
+     * @param session
+     * @param model
+     * @return
+     */
     @RequestMapping("forelogin")
     public String login(User user, HttpSession session,Model model){
         //1.转义
@@ -73,6 +95,11 @@ public class ForeController {
         return "redirect:forehome";
     }
 
+    /**
+     * 注销功能
+     * @param session
+     * @return
+     */
     @RequestMapping("forelogout")
     public String logout(HttpSession session){
         User user = (User)session.getAttribute("user");
@@ -80,5 +107,32 @@ public class ForeController {
             session.removeAttribute("user");
         }
         return "redirect:forehome";
+    }
+
+    /**
+     * 显示单独Product
+     * @param pid
+     * @param model
+     * @return
+     */
+    @RequestMapping("foreproduct")
+    public String product(int pid, Model model){
+        Product product = productService.get(pid);
+        List<ProductImage> singleImage = productImageService.list(pid, ProductImageService.type_single);
+        List<ProductImage> detailImage = productImageService.list(pid, ProductImageService.type_detail);
+        productService.setSaleReviewQuantity(product);
+        product.setProductSingleImage(singleImage);
+        product.setProductDetailImage(detailImage);
+
+        List<Review> reviews = reviewService.list(pid);
+        reviewService.setUser(reviews);
+
+        List<PropertyValue> propertyValues = propertyValueService.list(pid);
+        propertyValueService.setProperty(propertyValues);
+
+        model.addAttribute("reviews",reviews);
+        model.addAttribute("p",product);
+        model.addAttribute("pvs",propertyValues);
+        return "fore/product";
     }
 }
