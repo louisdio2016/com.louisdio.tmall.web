@@ -17,4 +17,5 @@ public interface OrderItemService {
     void setProduct(List<OrderItem> ois);
     void setProduct(OrderItem oi);
     int getQuantity(int pid);
+    List<OrderItem> listByUser(int uid);
 }

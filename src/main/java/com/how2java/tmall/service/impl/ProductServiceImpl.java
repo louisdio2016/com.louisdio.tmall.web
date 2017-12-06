@@ -124,6 +124,27 @@ public class ProductServiceImpl implements ProductService {
         product.setReviewQuantity(reviewQuantity);
     }
 
+    @Override
+    public List<Product> search(String keyword) {
+        ProductExample example = new ProductExample();
+        example.createCriteria().andNameLike("%" + keyword + "%");
+        example.setOrderByClause("id desc");
+        List<Product> products = productMapper.selectByExample(example);
+        setProductImage(products);
+        for (Product product:products){
+            Category category = categoryMapper.selectByPrimaryKey(product.getCid());
+            product.setCategory(category);
+        }
+        return products;
+    }
+
+    @Override
+    public void updateStock(int pid, int num) {
+        Product product = productMapper.selectByPrimaryKey(pid);
+        product.setStock(product.getStock() - num);
+        update(product);
+    }
+
     /*
     @Override
     public void setProductImage(Product product) {

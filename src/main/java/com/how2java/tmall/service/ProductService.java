@@ -13,10 +13,12 @@ public interface ProductService {
     void delete(int id);
     Product get(int id);
     void update(Product product);
+    void updateStock(int pid,int num);
     void setProductImage(Product product);
     void setProductImage(List<Product> productList);
     void fill(List<Category> categories);
     void fill(Category category);
     void fillByRow(List<Category> categories);
     void setSaleReviewQuantity(Product product);
+    List<Product> search(String keyword);
 }

@@ -19,7 +19,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     private ProductService productService;
     @Override
     public OrderItem get(int id) {
-        return null;
+        OrderItem orderItem = orderItemMapper.selectByPrimaryKey(id);
+        return orderItem;
     }
 
     @Override
@@ -76,17 +77,17 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public void update(OrderItem orderItem) {
-
+        orderItemMapper.updateByPrimaryKeySelective(orderItem);
     }
 
     @Override
     public void add(OrderItem orderItem) {
-
+        orderItemMapper.insert(orderItem);
     }
 
     @Override
     public void delete(int id) {
-
+        orderItemMapper.deleteByPrimaryKey(id);
     }
 
     @Override
@@ -101,5 +102,15 @@ public class OrderItemServiceImpl implements OrderItemService {
             quantity += oi.getNumber();
         }
         return quantity;
+    }
+
+    @Override
+    public List<OrderItem> listByUser(int uid) {
+        OrderItemExample example = new OrderItemExample();
+        example.createCriteria().andUidEqualTo(uid).andOidIsNull();
+        example.setOrderByClause("id desc");
+        List<OrderItem> orderItems = orderItemMapper.selectByExample(example);
+        setProduct(orderItems);
+        return orderItems;
     }
 }
