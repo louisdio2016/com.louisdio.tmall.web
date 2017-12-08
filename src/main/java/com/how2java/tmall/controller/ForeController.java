@@ -349,9 +349,18 @@ public class ForeController {
         Order order = orderService.get(oid);
         order.setStatus(OrderService.waitDelivery);
         order.setPayDate(new Date());
-
         orderService.update(order);
         model.addAttribute("o",order);
         return "fore/payed";
+    }
+
+    @RequestMapping("forebought")
+    public String bought(HttpSession session,Model model){
+        User user = (User)session.getAttribute("user");
+        int uid = user.getId();
+        List<Order> orders = orderService.list(uid, "delete");
+        orderItemService.fill(orders);
+        model.addAttribute("os",orders);
+        return "fore/bought";
     }
 }

@@ -16,6 +16,7 @@ public interface OrderService {
     Order get(int id);
     List<Order> list(int uid);
     List<Order> list();
+    List<Order> list(int uid,String excludedStatus);
     void update(Order order);
     void add(Order order);
     void delete(int id);
