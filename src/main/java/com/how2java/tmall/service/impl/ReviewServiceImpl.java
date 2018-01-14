@@ -27,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void add(Review review) {
-
+        reviewMapper.insertSelective(review);
     }
 
     @Override

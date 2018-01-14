@@ -436,6 +436,10 @@ div.loginDivInProductPageModalDiv {
 	width: 350px;
 }
 
+div.editDivInListAdminUserModalDiv{
+	width:400px;
+}
+
 div.deleteConfirmModalDiv {
 	width: 350px;
 }
@@ -443,6 +447,13 @@ div.deleteConfirmModalDiv {
 div.loginDivInProductPage {
 	background-color: white;
 	width: 350px;
+	height: 400px;
+	padding: 60px 25px 80px 25px;
+}
+
+div.editDivInListAdminUser {
+	background-color: white;
+	width: 400px;
 	height: 400px;
 	padding: 60px 25px 80px 25px;
 }

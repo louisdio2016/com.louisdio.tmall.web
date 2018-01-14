@@ -9,7 +9,6 @@
          pageEncoding="UTF-8" isELIgnored="false"%>
 <div class="buyPageDiv">
     <form action="forecreateOrder" method="post">
-
         <div class="buyFlow">
             <img class="pull-left" src="img/site/simpleLogo.png">
             <img class="pull-right" src="img/site/buyflow.png">

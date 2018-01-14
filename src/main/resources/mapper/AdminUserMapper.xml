@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.tmall.mapper.AdminUserMapper">
+    <resultMap id="AdminUserRstMap" type="AdminUser">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP"></result>
+        <collection property="roles" ofType="Role">
+            <id column="roleId" property="id" jdbcType="INTEGER"></id>
+            <result column="urid" property="urid" jdbcType="INTEGER"></result>
+            <result column="roleName" property="name" jdbcType="VARCHAR"></result>
+            <result column="rcreatetime" property="createtime" jdbcType="TIMESTAMP"></result>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="AdminUserRstMap">
+        select
+        a.id id,
+        a.name name,
+        a.password password,
+        a.createtime createtime,
+        ur.id urid,
+        r.id roleId,
+        r.name roleName,
+        r.createtime rcreatetime
+        from admin_user a
+        left join user_role ur on a.id = ur.uid
+        left join role r on r.id = ur.rid
+        <where>
+            a.id = #{id}
+        </where>
+    </select>
+<!--
+    <select id="selectAdminUserList" resultMap="AdminUserRstMap">
+        select
+        a.id id,
+        a.name name,
+        a.password password,
+        a.createtime createtime,
+        ur.id urid,
+        r.id roleId,
+        r.name roleName,
+        r.createtime rcreatetime
+        from admin_user a
+        left join user_role ur on a.id = ur.uid
+        left join role r on r.id = ur.rid
+    </select>
+-->
+    <select id="selectAdminUserList" resultMap="AdminUserRstMap">
+        select id,name,password,createtime from admin_user
+    </select>
+    <select id="selectByNamePassword" parameterType="AdminUser" resultMap="AdminUserRstMap">
+        select
+        a.id id,
+        a.name name,
+        a.password password,
+        a.createtime createtime,
+        ur.id urid,
+        r.id roleId,
+        r.name roleName,
+        r.createtime rcreatetime
+        from admin_user a
+        left join user_role ur on a.id = ur.uid
+        left join role r on r.id = ur.rid
+        <where>
+            <if test="name != null">
+              a.name = #{name}
+            </if>
+            <if test="password != null">
+              and a.password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAdminUser" parameterType="String" resultMap="AdminUserRstMap">
+        select
+        a.id id,
+        a.name name,
+        a.password password,
+        a.createtime createtime,
+        ur.id urid,
+        r.id roleId,
+        r.name roleName,
+        r.createtime rcreatetime
+        from admin_user a
+        left join user_role ur on a.id = ur.uid
+        left join role r on r.id = ur.rid
+        <where>
+            a.name = #{name}
+        </where>
+    </select>
+
+    <select id="findRoles" resultType="String" parameterType="String">
+        select r.name from admin_user u, user_role ur, role r
+         <where>
+             and u.name = #{name} and u.id = ur.uid and ur.rid = r.id
+         </where>
+
+    </select>
+
+    <select id="findPermissions" resultType="String" parameterType="String">
+        select DISTINCT m.name from admin_user u, user_role ur, role r, role_menu rm, menu m
+        <where>
+            and u.name = #{name} and u.id = ur.uid and ur.rid = r.id and r.id = rm.rid and rm.mid = m.id
+        </where>
+    </select>
+
+    <insert id="insertAdminUser" parameterType="AdminUser" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        insert into admin_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            password,
+            <if test="createtime != null">
+                createtime,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name},
+            #{password},
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertAdminUserRole" parameterType="UserRoleVo">
+        insert into user_role (uid,rid) values
+        <foreach collection="roleIds" item="rId" separator=",">
+            (${adminUser.id},#{rId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteAdminUser" parameterType="java.lang.Integer">
+        delete from admin_user where id = #{id}
+    </delete>
+    <delete id="deleteAdminUserRole" parameterType="java.lang.Integer">
+        delete from user_role where uid = #{id}
+    </delete>
+    <delete id="deleteAdminUserList" parameterType="list">
+        delete from admin_user where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteAdminUserRoleList" parameterType="list">
+        delete from user_role where uid in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <update id="updateAdminUser" parameterType="AdminUser">
+        update admin_user
+          <set>
+              <if test="name != null">
+                  name = #{name,jdbcType=VARCHAR},
+              </if>
+              <if test="password != null">
+                  password = #{password,jdbcType=VARCHAR},
+              </if>
+              <if test="createtime != null">
+                  createtime = #{createtime,jdbcType=TIMESTAMP},
+              </if>
+          </set>
+        <where>
+            id = #{id,jdbcType=INTEGER}
+        </where>
+    </update>
+</mapper>

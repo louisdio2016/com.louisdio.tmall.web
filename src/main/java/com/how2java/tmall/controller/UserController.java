@@ -17,7 +17,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-    @RequestMapping("admin_user_list")
+    @RequestMapping("user_list")
     public String list(Model model,Page page){
         PageHelper.offsetPage(page.getStart(),page.getCount());
         List<User> userList = userService.list();

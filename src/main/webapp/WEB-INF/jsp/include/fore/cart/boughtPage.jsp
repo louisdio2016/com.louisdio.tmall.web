@@ -32,18 +32,18 @@
 
         $("button.deleteConfirmButton").click(function () {
             deleteOrder = true;
-            $("#deleteConfirmModal").hide();
+            $("#deleteConfirmModal").modal('hide');
         });
 
-        $("#deleteConfirmModal").on("hidden.bs.modal",function (e) {
+        $("#deleteConfirmModal").on('hidden.bs.modal',function (e) {
             if(deleteOrder){
                 var page = "foredeleteOrder";
                 $.post(
                     page,
-                    {oid:deleteOrderid},
-                    function (resutl) {
-                        if("success" == resutl){
-                            $("table[oid="+deleteOrderid+"]").hide();
+                    {"oid":deleteOrderid},
+                    function (result) {
+                        if('success' == result){
+                            $("table.orderListItemTable[oid='"+deleteOrderid+"']").hide();
                         }else {
                             location.href = "login.jsp";
                         }

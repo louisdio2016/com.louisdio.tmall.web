@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.tmall.mapper.RoleMapper">
+    <resultMap id="RoleRstMap" type="Role">
+        <id property="id" column="id" jdbcType="INTEGER"></id>
+        <result property="name" column="name" jdbcType="VARCHAR"></result>
+        <result property="createtime" column="createtime" jdbcType="TIMESTAMP"></result>
+        <collection property="menus" ofType="Menu">
+            <id property="id" column="mid" jdbcType="INTEGER"></id>
+            <result property="name" column="menuName" jdbcType="VARCHAR"></result>
+            <result property="createtime" column="mcreatetime" jdbcType="TIMESTAMP"></result>
+            <result property="sign" column="menuSign" jdbcType="VARCHAR"></result>
+        </collection>
+        <collection property="adminUsers" ofType="AdminUser">
+            <id property="id" column="uid" jdbcType="INTEGER"></id>
+            <result property="name" column="userName" jdbcType="VARCHAR"></result>
+            <result property="password" column="password" jdbcType="VARCHAR"></result>
+            <result property="createtime" column="ucreatetime" jdbcType="TIMESTAMP"></result>
+        </collection>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="RoleRstMap" parameterType="java.lang.Integer">
+        select r.id id,r.name name,r.createtime createtime,u.id uid,u.name userName,
+               u.password password,u.createtime ucreatetime,m.id mid,m.name menuName,
+               m.createtime mcreatetime,m.sign menuSign
+               from role r left join user_role ur on r.id = ur.rid
+                            left join admin_user u on ur.uid = u.id
+                            left join role_menu rm on r.id = rm.rid
+                            left join menu m on rm.mid = m.id
+                            where r.id = #{id}
+    </select>
+    <!--
+    <select id="selectRoleList" resultMap="RoleRstMap">
+        select r.id id,r.name name,r.createtime createtime,u.id uid,u.name userName,
+               u.password password,u.createtime ucreatetime,m.id mid,m.name menuName,
+               m.createtime mcreatetime,m.sign menuSign
+               from role r left join user_role ur on r.id = ur.rid
+                            left join admin_user u on ur.uid = u.id
+                            left join role_menu rm on r.id = rm.rid
+                            left join menu m on rm.mid = m.id
+    </select>
+    -->
+    <select id="selectRoleList" resultMap="RoleRstMap">
+        select id,name,createtime from role
+    </select>
+    <insert id="insertRole" parameterType="Role" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+          name,
+            <if test="createtime != null">
+              createtime,
+            </if>
+        </trim>
+         values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name},
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertRoleMenu" parameterType="RoleMenuVo">
+      insert into role_menu (rid,mid) values
+      <foreach collection="menuIds" item="mid" separator=",">
+          (${roleId},#{mid})
+      </foreach>
+    </insert>
+
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from role where id = #{id}
+    </delete>
+    <delete id="deleteRoleMenu" parameterType="java.lang.Integer">
+        delete from role_menu where rid = #{id}
+    </delete>
+    <delete id="deleteRoleList" parameterType="list">
+        delete from role where id IN
+        <foreach collection="list" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteRoleMenuList" parameterType="list">
+        delete from role_menu where rid IN
+        <foreach collection="list" item="rid" open="(" close=")" separator=",">
+            #{rid}
+        </foreach>
+    </delete>
+
+    <update id="updateRole" parameterType="Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

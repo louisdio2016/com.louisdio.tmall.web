@@ -92,6 +92,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(int id) {
-
+        orderMapper.deleteByPrimaryKey(id);
     }
 }

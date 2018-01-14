@@ -363,4 +363,77 @@ public class ForeController {
         model.addAttribute("os",orders);
         return "fore/bought";
     }
+
+    @RequestMapping("foreconfirmPay")
+    public String confirmPay(int oid,Model model){
+        Order order = orderService.get(oid);
+        orderItemService.fill(order);
+        model.addAttribute("o",order);
+        return "fore/confirmPay";
+    }
+
+    @RequestMapping("foreorderConfirmed")
+    public String orderConfirmed(int oid){
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.waitReview);
+        order.setConfirmDate(new Date());
+        orderService.update(order);
+        return "fore/orderConfirmed";
+    }
+
+    @RequestMapping("foredeleteOrder")
+    @ResponseBody
+    public String deleteOrder(int oid){
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.delete);
+        orderService.update(order);
+        return "success";
+    }
+
+    @RequestMapping("forereview")
+    public String review(int oid,Model model){
+        Order order = orderService.get(oid);
+        orderItemService.fill(order);
+        Product product = order.getOrderItems().get(0).getProduct();
+        productService.setSaleReviewQuantity(product);
+        productService.setProductImage(product);
+
+        List<Review> reviews = reviewService.list(product.getId());
+
+        model.addAttribute("p",product);
+        model.addAttribute("o",order);
+        model.addAttribute("reviews",reviews);
+
+        return "fore/review";
+    }
+
+    @RequestMapping("foredoreview")
+    public String doreview(HttpSession session,Review review,int oid){
+        //1.更新order的status
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.finish);
+        orderService.update(order);
+        //2.封装review,添加review
+        User user = (User)session.getAttribute("user");
+//        review.setUser(user);
+        review.setUid(user.getId());
+        review.setCreateDate(new Date());
+        String content = review.getContent();
+        content = HtmlUtils.htmlEscape(content);
+        review.setContent(content);
+
+        reviewService.add(review);
+        //3.model添加product,oreder,reviews
+//        orderItemService.fill(order);
+//        Product product = order.getOrderItems().get(0).getProduct();
+//        productService.setSaleReviewQuantity(product);
+//        productService.setProductImage(product);
+//        List<Review> reviews = reviewService.list(product.getId());
+//
+//        model.addAttribute("p",product);
+//        model.addAttribute("o",order);
+//        model.addAttribute("reviews",reviews);
+
+        return "redirect:forereview?oid="+oid+"&showonly=true";
+    }
 }

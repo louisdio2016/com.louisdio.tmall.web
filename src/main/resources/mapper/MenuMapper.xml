@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.tmall.mapper.MenuMapper">
+    <resultMap id="MenuRstMap" type="Menu">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP"></result>
+        <result column="sign" property="sign" jdbcType="VARCHAR"></result>
+        <collection property="roles" ofType="Role">
+            <id property="id" column="rid" jdbcType="INTEGER"></id>
+            <result property="name" column="roleName" jdbcType="VARCHAR"></result>
+            <result property="createtime" column="rcreatetime" jdbcType="TIMESTAMP"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultMap="MenuRstMap" parameterType="INTEGER">
+        select m.id id,
+		m.name,
+        m.createtime createtime,
+        m.sign sign,
+        rid,
+        r.name roleName,
+        r.createtime rcreatetime
+	    from menu m left join role_menu rm on m.id = rm.mid
+					left join role r on r.id = rm.rid
+        where m.id = #{id}
+    </select>
+    <!--
+    <select id="selectMenuList" resultMap="MenuRstMap">
+        select m.id id,
+		m.name,
+        m.createtime createtime,
+        m.sign sign,
+        rid,
+        r.name roleName,
+        r.createtime rcreatetime
+	    from menu m left join role_menu rm on m.id = rm.mid
+					left join role r on r.id = rm.rid
+    </select>
+    -->
+    <select id="selectMenuList" resultMap="MenuRstMap">
+        select id,name,createtime,sign from menu
+    </select>
+    <insert id="insertMenu" parameterType="Menu" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sign != null">
+                sign,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="sign != null">
+                #{sign},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteMenu" parameterType="INTEGER">
+        delete from menu where id = #{id}
+    </delete>
+    <delete id="deleteMenuList" parameterType="list">
+        delete from menu where id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateMenu" parameterType="Menu">
+        update menu
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sign != null">
+                sign = #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

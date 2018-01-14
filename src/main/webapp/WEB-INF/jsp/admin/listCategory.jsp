@@ -15,7 +15,7 @@
 </script>
 <title>分类管理</title>
 <div class="workingArea">
-    <h1 class="">分类管理</h1>
+    <h1 class="label label-info">分类管理</h1>
     <br>
     <br>
     <!--嵌套三个div：表格，page，新增分类-->
