@@ -6,9 +6,8 @@ import com.how2java.tmall.pojo.RoleMenuVo;
 import java.util.List;
 
 public interface RoleService {
+//    List<Role> list(int start,int count);
     List<Role> list();
-    //List<Role> list(Page page);
-    //int total();
     void add(RoleMenuVo roleMenuVo);
     void delete(Integer id);
     Role get(Integer id);

@@ -31,6 +31,7 @@ public class AdminUserController {
     public String list(Model model,Page page){
         //分页
         PageHelper.offsetPage(page.getStart(),page.getCount());
+//        List<AdminUser> adminUserList = adminUserService.list(page.getStart(),page.getCount());
         List<AdminUser> adminUserList = adminUserService.list();
         //装填Role
         adminUserService.fillRoles(adminUserList);

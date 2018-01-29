@@ -51,7 +51,6 @@ public class AdminUserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = token.getPrincipal().toString();
         AdminUser adminUser = adminUserService.findByName(username);
-//        AdminUser adminUser = adminUserService.get(11);
         if (adminUser != null){
             AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(adminUser, adminUser.getPassword(),getName());
             return authenticationInfo;

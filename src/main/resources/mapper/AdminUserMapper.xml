@@ -13,7 +13,8 @@
             <result column="rcreatetime" property="createtime" jdbcType="TIMESTAMP"></result>
         </collection>
     </resultMap>
-
+    <!--启用Mybatis自带的二级缓存-->
+    <cache eviction="LRU" type="com.how2java.tmall.cache.MyBatisRedisCache"></cache>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="AdminUserRstMap">
         select
@@ -100,7 +101,7 @@
 
     </select>
 
-    <select id="findPermissions" resultType="String" parameterType="String">
+    <select id="findPermissions" resultType="String" parameterType="String" >
         select DISTINCT m.name from admin_user u, user_role ur, role r, role_menu rm, menu m
         <where>
             and u.name = #{name} and u.id = ur.uid and ur.rid = r.id and r.id = rm.rid and rm.mid = m.id
@@ -127,9 +128,9 @@
     </insert>
     <insert id="insertAdminUserRole" parameterType="UserRoleVo">
         insert into user_role (uid,rid) values
-        <foreach collection="roleIds" item="rId" separator=",">
-            (${adminUser.id},#{rId})
-        </foreach>
+            <foreach collection="roleIds" item="rId" separator=",">
+                (${adminUser.id},#{rId})
+            </foreach>
     </insert>
 
     <delete id="deleteAdminUser" parameterType="java.lang.Integer">

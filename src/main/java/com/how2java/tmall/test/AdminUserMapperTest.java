@@ -8,6 +8,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,9 @@ import java.util.*;
 
 public class AdminUserMapperTest {
     private SqlSessionFactory sqlSessionFactory;
-
+    private InputStream inputStream;
+    private SqlSession session;
+    private static String resource = "sqlMapConfig.xml";
     @Before
     public void setUp() throws Exception{
         String resource = "sqlMapConfig.xml";
@@ -24,9 +27,15 @@ public class AdminUserMapperTest {
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     }
 
+    @After
+    public void Close()throws Exception{
+        session.close();
+//        inputStream.close();
+    }
+
     @Test
     public void testSelectByPrimaryKey(){
-        SqlSession session = sqlSessionFactory.openSession();
+        session = sqlSessionFactory.openSession();
         AdminUserMapper mapper = session.getMapper(AdminUserMapper.class);
         AdminUser adminUser = mapper.selectByPrimaryKey(11);
         System.out.println(adminUser.toString());

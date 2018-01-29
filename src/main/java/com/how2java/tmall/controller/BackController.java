@@ -64,8 +64,9 @@ public class BackController {
     }
     //注销
     @RequestMapping("logout")
-    public String logout(){
+    public String logout(HttpSession session){
         SecurityUtils.getSubject().logout();
+        System.out.println(session.toString());
         return "admin/login";
     }
 }

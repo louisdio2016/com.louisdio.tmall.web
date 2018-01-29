@@ -1,8 +1,9 @@
 package com.how2java.tmall.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Category {
+public class Category implements Serializable {
     private Integer id;
 
     private String name;

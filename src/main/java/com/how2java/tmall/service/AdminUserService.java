@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface AdminUserService {
+//    List<AdminUser> list(int start,int count);
     List<AdminUser> list();
     AdminUser findByName(String username);
     //List<AdminUser> list(Page page);

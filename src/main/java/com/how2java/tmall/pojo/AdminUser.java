@@ -2,10 +2,11 @@ package com.how2java.tmall.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class AdminUser {
+public class AdminUser implements Serializable {
 
     private int id;
     private String name;

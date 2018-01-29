@@ -5,6 +5,7 @@ import com.how2java.tmall.pojo.Menu;
 import java.util.List;
 
 public interface MenuService {
+//    List<Menu> list(int start,int count);
     List<Menu> list();
     //List<Menu> list(Page page);
     //int total();

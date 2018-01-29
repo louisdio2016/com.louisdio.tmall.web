@@ -4,32 +4,32 @@
     $(function () {
         //1.隐藏errorMsg
         <c:if test="${!empty msg}">
-            $("span.errorMessage").html(${msg});
-            $("div.loginErrorMessageDiv").show();
+            $("span.errorMessage").html("${msg}");
+            $("div.loginErrorMessageDivAdmin").show();
         </c:if>
         //2.绑定表单提交事件
         $("form.loginForm").submit(function () {
             var name = $("input#name").val();
             if(name.length == 0){
                 $("span.errorMessage").html("用户名不能为空");
-                $("div.loginErrorMessageDiv").show();
+                $("div.loginErrorMessageDivAdmin").show();
                 return false;
             }
             var password = $("input#password").val();
             if(password.length == 0){
                 $("span.errorMessage").html("密码不能为空");
-                $("div.loginErrorMessageDiv").show();
+                $("div.loginErrorMessageDivAdmin").show();
                 return false;
             }
             return true;
         });
         //3.敲击键盘隐藏errorMsg
         $("input").keyup(function () {
-            $("div.loginErrorMessageDiv").hide();
+            $("div.loginErrorMessageDivAdmin").hide();
         });
     });
 </script>
-<div id="loginDiv" style="position:relative">
+<div id="loginDiv" style="margin: 0 auto;width: 400px;height: 100px">
     <div class="simpleLogo">
         <a href="${contextPath}"><img src="img/site/simpleLogo.png"></a>
     </div>
@@ -37,15 +37,15 @@
     <img id="loginBackgroundImg" src="img/site/loginBackground.png" class="loginBackgroundImg">
     -->
     <form action="checkLogin" class="loginForm" method="post">
-        <div id="loginSmallDiv" class="loginSmallDiv">
-            <div class="loginErrorMessageDiv">
+        <div id="loginSmallDiv" class="loginSmallDivCenter">
+
+            <div class="login_acount_text">管理员账户登录</div>
+            <div class="loginErrorMessageDivAdmin" style="display: none">
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                     <span class="errorMessage"></span>
                 </div>
             </div>
-
-            <div class="login_acount_text">管理员账户登录</div>
             <div class="loginInput">
                 <span class="loginInputIcon">
                     <span class="glyphicon glyphicon-user"></span>

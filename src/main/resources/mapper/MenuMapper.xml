@@ -12,7 +12,7 @@
             <result property="createtime" column="rcreatetime" jdbcType="TIMESTAMP"></result>
         </collection>
     </resultMap>
-
+    <cache eviction="LRU" type="com.how2java.tmall.cache.MyBatisRedisCache"></cache>
     <select id="selectByPrimaryKey" resultMap="MenuRstMap" parameterType="INTEGER">
         select m.id id,
 		m.name,

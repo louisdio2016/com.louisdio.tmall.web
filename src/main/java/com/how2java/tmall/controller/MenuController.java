@@ -23,6 +23,7 @@ public class MenuController {
     @RequestMapping("admin_menu_list")
     public String list(Model model, Page page){
         PageHelper.offsetPage(page.getStart(),page.getCount());
+//        List<Menu> menuList = menuService.list(page.getStart(),page.getCount());
         List<Menu> menuList = menuService.list();
         menuService.fillRoles(menuList);
         int total = (int)new PageInfo<>(menuList).getTotal();

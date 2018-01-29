@@ -31,6 +31,7 @@ public class RoleController {
         List<Role> roleList = null;
         try {
             PageHelper.offsetPage(page.getStart(),page.getCount());
+//            roleList = roleService.list(page.getStart(),page.getCount());
             roleList = roleService.list();
             roleService.fillMenus(roleList);
             roleService.fillAdminUsers(roleList);

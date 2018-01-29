@@ -18,6 +18,7 @@
             <result property="createtime" column="ucreatetime" jdbcType="TIMESTAMP"></result>
         </collection>
     </resultMap>
+    <cache eviction="LRU" type="com.how2java.tmall.cache.MyBatisRedisCache"></cache>
     <select id="selectByPrimaryKey" resultMap="RoleRstMap" parameterType="java.lang.Integer">
         select r.id id,r.name name,r.createtime createtime,u.id uid,u.name userName,
                u.password password,u.createtime ucreatetime,m.id mid,m.name menuName,

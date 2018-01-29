@@ -468,10 +468,27 @@ div.loginSmallDiv {
 	padding: 60px 25px 80px 25px;
 }
 
+div.loginSmallDivCenter {
+	background-color: white;
+	position: absolute;
+	/*top: 180px;*/
+	width: 350px;
+	height: 400px;
+	padding: 60px 25px 80px 25px;
+}
+
 div.loginErrorMessageDiv {
 	width: 300px;
 	position: absolute;
 	top: 20px;
+	display: none;
+}
+
+div.loginErrorMessageDivAdmin {
+	width: 300px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	/*top: 20px;*/
 	display: none;
 }
 

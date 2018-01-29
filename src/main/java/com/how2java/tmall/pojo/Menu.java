@@ -2,10 +2,11 @@ package com.how2java.tmall.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Menu {
+public class Menu implements Serializable {
     private int id;
     private String name;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

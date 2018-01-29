@@ -5,6 +5,7 @@ import com.how2java.tmall.pojo.Category;
 import com.how2java.tmall.pojo.CategoryExample;
 import com.how2java.tmall.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +45,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+//    @Cacheable
     public Category get(int id) {
-
         return categoryMapper.selectByPrimaryKey(id);
     }
 

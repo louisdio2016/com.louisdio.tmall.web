@@ -2,10 +2,11 @@ package com.how2java.tmall.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Role {
+public class Role implements Serializable {
     private int id;
     private String name;
     private List<Menu> menus;
